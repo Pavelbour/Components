@@ -5,7 +5,7 @@ const { name, version } = pjs;
 const getLogger = (serviceName, serviceVersion, level) => bunyan.createLogger({name: `${serviceName}:${serviceVersion}`, level});
 
 module.exports = {
-    developement: {
+    development: {
         name,
         version,
         serviceTimeOut: 30,

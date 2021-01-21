@@ -4,11 +4,13 @@
   "description": "A generic service registry for Node.js",
   "main": "/server/service.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon bin/run | bunyan"
   },
   "keywords": [
     "nodejs",
-    "microservices"
+    "microservices",
+    "service-registry"
   ],
   "author": "Pavel Rodin",
   "license": "ISC",

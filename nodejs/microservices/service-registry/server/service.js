@@ -14,6 +14,22 @@ module.exports = config => {
         });
     }
 
+    service.put('/register/:servicename/:serviceversion/:serviceport', (req, res) => {
+        const {servicename, serviceversion, serviceport} = req.params;
+        console.log(req.params, servicename, serviceversion, serviceport);
+        const serviceip = req.ip.includes('::') ? `[${req.ip}]` : req.ip;
+        const serviceKey = serviceRegistry.register(servicename, serviceversion, serviceip, serviceport);
+
+        return res.json({result: serviceKey});
+    });
+
+    service.delete('register/:servicename/:serviceversion/:serviceport', (req, res, next) => {
+        return next('Not Implemented');
+    });
+
+    service.get('register/:servicename/:serviceversion/', (req, res, next) => {
+        return next('Not Implemented');
+    });
 
     service.use((error, req, res, next) => {
         res.status(error.status || 500);
