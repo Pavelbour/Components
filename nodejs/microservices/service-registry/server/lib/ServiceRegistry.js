@@ -23,6 +23,12 @@ class ServiceRegistry {
         this.log.debug(`Updated services ${name}, ${version} at ${ip}:${port}`);
         return key;
     }
+
+    unregister(name, version, ip, port){
+        const key = name + version + ip + port;
+        delete this.services[key];
+        return key;
+    }
 }
 
 module.exports = ServiceRegistry;
