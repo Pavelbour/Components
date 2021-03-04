@@ -23,7 +23,7 @@ module.exports = config => {
         return res.json({result: serviceKey});
     });
 
-    service.delete('unregister/:servicename/:serviceversion/:serviceport', (req, res) => {
+    service.delete('/unregister/:servicename/:serviceversion/:serviceport', (req, res) => {
         const {servicename, serviceversion, serviceport} = req.params;
         console.log(req.params, servicename, serviceversion, serviceport);
         const serviceip = req.ip.includes('::') ? `[${req.ip}]` : req.ip;
@@ -32,8 +32,14 @@ module.exports = config => {
         return res.json({result: `Deleted ${serviceKey}`});
     });
 
-    service.get('find/register/:servicename/:serviceversion/', (req, res, next) => {
-        return next('Not Implemented');
+    service.get('/find/register/:servicename/:serviceversion/', (req, res) => {
+        const {servicename, serviceversion} = req.params;
+
+        const service = serviceRegistry.get(servicename, serviceversion);
+        if (!service)
+            return res.status(404).json({result: "Service not found"});
+
+        return res.json(service);
     });
 
     service.use((error, req, res, next) => {
