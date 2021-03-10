@@ -8,12 +8,14 @@ class ServiceRegistry {
     }
 
     get(name, version){
+        this.cleanup();
         const serviceList = Object.values(this.services).
             filter(service => service.name === name && semver.satisfies(service.version, version));
         return serviceList [Math.floor(Math.random() * serviceList.length)];
     }
 
     register(name, version, ip, port){
+        this.cleanup();
         const key = name + version + ip + port;
 
         if (!this.services[key]) {
@@ -36,6 +38,16 @@ class ServiceRegistry {
         const key = name + version + ip + port;
         delete this.services[key];
         return key;
+    }
+
+    cleanup(){
+        const now = Math.floor(new Date() / 1000);
+        Object.keys(this.services).forEach(key => {
+            if (this.services[key].timestamp + this.timeout < now) {
+                delete this.services[key];
+                this.log.debug(`Removed service ${key}`);
+            }
+        })
     }
 }
 
